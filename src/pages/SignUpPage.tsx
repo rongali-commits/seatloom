@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
-import { useAuth } from '@/lib/auth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { useAuth, consumeReturnPath } from '@/lib/auth';
 import { BrandMark } from '@/components/BrandMark';
 
 export function SignUpPage() {
   const { signUp } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fromPath = new URLSearchParams(location.search).get('from');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +25,8 @@ export function SignUpPage() {
       setError(signUpError);
       return;
     }
-    navigate('/studio');
+    const returnPath = fromPath || consumeReturnPath();
+    navigate(returnPath);
   };
 
   return (
@@ -33,9 +37,9 @@ export function SignUpPage() {
             <BrandMark className="w-8 h-8" />
             <span className="font-display text-xl font-700 tracking-tight">Seatloom</span>
           </Link>
-          <h1 className="text-headline text-ink">Create your studio</h1>
+          <h1 className="text-headline text-ink">Create your account</h1>
           <p className="mt-2 text-sm text-ink-muted">
-            Sign up to manage workshops and sessions.
+            Sign up to book workshops and manage your sessions.
           </p>
         </div>
 
@@ -50,7 +54,7 @@ export function SignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="field-input pl-10"
-                placeholder="you@studio.com"
+                placeholder="you@example.com"
                 required
                 autoComplete="email"
               />

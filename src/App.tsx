@@ -10,6 +10,12 @@ import { OrganizerDemoPage } from '@/pages/OrganizerDemoPage';
 import { SignUpPage } from '@/pages/SignUpPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { StudioPage } from '@/pages/StudioPage';
+import { StudioWorkshopEditPage, StudioWorkshopDetailPage } from '@/pages/StudioWorkshopEditPage';
+import { PublicStudioPage } from '@/pages/PublicStudioPage';
+import { PublicWorkshopPage } from '@/pages/PublicWorkshopPage';
+import { MyBookingsPage } from '@/pages/MyBookingsPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
+import { TermsPage } from '@/pages/TermsPage';
 
 function NotFoundPage() {
   return (
@@ -36,6 +42,13 @@ function AppShell() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/studio" element={<StudioPage />} />
+            <Route path="/studio/workshops/new" element={<StudioWorkshopEditPage />} />
+            <Route path="/studio/workshops/:workshopId" element={<StudioWorkshopDetailPage />} />
+            <Route path="/s/:studioSlug" element={<PublicStudioPage />} />
+            <Route path="/s/:studioSlug/:workshopSlug" element={<PublicWorkshopPage />} />
+            <Route path="/my-bookings" element={<MyBookingsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

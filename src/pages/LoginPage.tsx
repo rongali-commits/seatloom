@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
-import { useAuth } from '@/lib/auth';
+import { useAuth, consumeReturnPath } from '@/lib/auth';
 import { BrandMark } from '@/components/BrandMark';
 
 export function LoginPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fromPath = new URLSearchParams(location.search).get('from');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +25,8 @@ export function LoginPage() {
       setError(signInError);
       return;
     }
-    navigate('/studio');
+    const returnPath = fromPath || consumeReturnPath();
+    navigate(returnPath);
   };
 
   return (
@@ -35,7 +39,7 @@ export function LoginPage() {
           </Link>
           <h1 className="text-headline text-ink">Welcome back</h1>
           <p className="mt-2 text-sm text-ink-muted">
-            Sign in to your studio dashboard.
+            Sign in to your Seatloom account.
           </p>
         </div>
 
@@ -50,7 +54,7 @@ export function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="field-input pl-10"
-                placeholder="you@studio.com"
+                placeholder="you@example.com"
                 required
                 autoComplete="email"
               />

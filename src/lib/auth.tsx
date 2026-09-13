@@ -13,6 +13,31 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const RETURN_PATH_KEY = 'seatloom-auth-return-path';
+
+export function setReturnPath(path: string): void {
+  try {
+    if (path && path.startsWith('/') && !path.startsWith('//')) {
+      sessionStorage.setItem(RETURN_PATH_KEY, path);
+    }
+  } catch {
+    // sessionStorage may be unavailable
+  }
+}
+
+export function consumeReturnPath(): string {
+  try {
+    const path = sessionStorage.getItem(RETURN_PATH_KEY);
+    if (path && path.startsWith('/') && !path.startsWith('//')) {
+      sessionStorage.removeItem(RETURN_PATH_KEY);
+      return path;
+    }
+  } catch {
+    // sessionStorage may be unavailable
+  }
+  return '/studio';
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);

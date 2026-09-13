@@ -36,6 +36,9 @@ export function Header() {
             </NavLink>
             {user ? (
               <>
+                <NavLink to="/my-bookings" className={navLinkClass}>
+                  My bookings
+                </NavLink>
                 <NavLink to="/studio" className={navLinkClass}>
                   Studio
                 </NavLink>
@@ -80,6 +83,9 @@ export function Header() {
             </NavLink>
             {user ? (
               <>
+                <NavLink to="/my-bookings" className="block py-2 text-sm font-medium text-ink-soft hover:text-ink">
+                  My bookings
+                </NavLink>
                 <NavLink to="/studio" className="block py-2 text-sm font-medium text-ink-soft hover:text-ink">
                   Studio
                 </NavLink>

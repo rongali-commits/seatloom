@@ -30,6 +30,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/my-bookings" className="text-sm text-ink-soft hover:text-ink transition-colors">
+                  My bookings
+                </Link>
+              </li>
+              <li>
                 <Link to="/signup" className="text-sm text-ink-soft hover:text-ink transition-colors">
                   Create account
                 </Link>
@@ -41,13 +46,14 @@ export function Footer() {
             <h3 className="text-xs font-medium uppercase tracking-wider text-ink-faint mb-3">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <span className="text-sm text-ink-muted cursor-default">Privacy policy</span>
+                <Link to="/privacy" className="text-sm text-ink-soft hover:text-ink transition-colors">
+                  Privacy policy
+                </Link>
               </li>
               <li>
-                <span className="text-sm text-ink-muted cursor-default">Terms of service</span>
-              </li>
-              <li>
-                <span className="text-sm text-ink-muted cursor-default">Cancellation policy</span>
+                <Link to="/terms" className="text-sm text-ink-soft hover:text-ink transition-colors">
+                  Terms of service
+                </Link>
               </li>
             </ul>
           </div>
