@@ -379,6 +379,9 @@ export function PublicWorkshopPage() {
                                   {formatTime(session.end_at, tz)}
                                 </span>
                               </div>
+                              <p className="text-xs text-ink-muted mb-1">
+                                {tz}
+                              </p>
                               <div className="flex items-center gap-2 text-xs text-ink-muted">
                                 <MapPin className="w-3 h-3" />
                                 {session.format === "online"

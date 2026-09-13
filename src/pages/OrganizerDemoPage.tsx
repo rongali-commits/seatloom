@@ -370,7 +370,7 @@ export function OrganizerDemoPage() {
                   {sessionBookings.map((booking) => (
                     <div
                       key={booking.id}
-                      className="flex items-center gap-3 rounded-lg border border-ink/8 p-3"
+                      className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-ink/8 p-3"
                     >
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-ink truncate">
@@ -431,6 +431,34 @@ export function OrganizerDemoPage() {
                         >
                           <Trash2 className="w-4 h-4 text-red-500" />
                         </button>
+                        <select
+                          className="max-w-[105px] text-xs rounded border border-ink/15 p-1.5 bg-paper"
+                          aria-label={`Reschedule ${booking.attendeeName}`}
+                          value=""
+                          onChange={(e) => {
+                            if (e.target.value)
+                              dispatch({
+                                type: "RESCHEDULE",
+                                bookingId: booking.id,
+                                newSessionId: e.target.value,
+                              });
+                          }}
+                        >
+                          <option value="">Move to...</option>
+                          {state.sessions
+                            .filter(
+                              (s) =>
+                                s.workshopId === booking.workshopId &&
+                                s.id !== booking.sessionId &&
+                                new Date(s.startAt).getTime() > Date.now() &&
+                                getAvailableSeats(state, s.id) > 0,
+                            )
+                            .map((s) => (
+                              <option key={s.id} value={s.id}>
+                                {formatDate(s.startAt)}
+                              </option>
+                            ))}
+                        </select>
                       </div>
                     </div>
                   ))}
