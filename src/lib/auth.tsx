@@ -1,23 +1,40 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { Session, User } from '@supabase/supabase-js';
-import { supabase } from './supabase';
+import type { Session, User } from "@supabase/supabase-js";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+import { supabase } from "./supabase";
 
 interface AuthContextValue {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: string | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>;
+  signUp: (
+    email: string,
+    password: string,
+  ) => Promise<{ error: string | null }>;
+  signIn: (
+    email: string,
+    password: string,
+  ) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const RETURN_PATH_KEY = 'seatloom-auth-return-path';
+const RETURN_PATH_KEY = "seatloom-auth-return-path";
 
 export function setReturnPath(path: string): void {
   try {
-    if (path && path.startsWith('/') && !path.startsWith('//')) {
+    if (
+      path &&
+      path.startsWith("/") &&
+      !path.startsWith("//") &&
+      !/[\\\r\n]/.test(path)
+    ) {
       sessionStorage.setItem(RETURN_PATH_KEY, path);
     }
   } catch {
@@ -28,14 +45,19 @@ export function setReturnPath(path: string): void {
 export function consumeReturnPath(): string {
   try {
     const path = sessionStorage.getItem(RETURN_PATH_KEY);
-    if (path && path.startsWith('/') && !path.startsWith('//')) {
+    if (
+      path &&
+      path.startsWith("/") &&
+      !path.startsWith("//") &&
+      !/[\\\r\n]/.test(path)
+    ) {
       sessionStorage.removeItem(RETURN_PATH_KEY);
       return path;
     }
   } catch {
     // sessionStorage may be unavailable
   }
-  return '/studio';
+  return "/studio";
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -44,30 +66,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-      setLoading(false);
-    });
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      (async () => {
-        setSession(newSession);
-        setUser(newSession?.user ?? null);
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
         setLoading(false);
-      })();
-    });
+      })
+      .catch(() => setLoading(false));
+
+    const { data: sub } = supabase.auth.onAuthStateChange(
+      (_event, newSession) => {
+        (async () => {
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          setLoading(false);
+        })();
+      },
+    );
 
     return () => sub.subscription.unsubscribe();
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: `${window.location.origin}/studio` },
+    });
     return { error: error?.message ?? null };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     return { error: error?.message ?? null };
   };
 
@@ -76,7 +110,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, session, loading, signUp, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -84,6 +120,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
 }

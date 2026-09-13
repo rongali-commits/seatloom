@@ -1,16 +1,22 @@
-import { useReducer, useEffect, useCallback, useRef } from 'react';
-import { demoReducer } from '@/domain/reducer';
-import { createSeedState } from '@/domain/seed';
-import type { DemoState } from '@/domain/types';
+import { demoReducer } from "@/domain/reducer";
+import { createSeedState } from "@/domain/seed";
+import type { DemoState } from "@/domain/types";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 
-const STORAGE_KEY = 'seatloom-demo-v1';
+const STORAGE_KEY = "seatloom-demo-v2";
 
 function loadState(): DemoState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as DemoState;
-      if (parsed.sessions && parsed.bookings) return parsed;
+      if (
+        Array.isArray(parsed.sessions) &&
+        Array.isArray(parsed.bookings) &&
+        Array.isArray(parsed.waitlist) &&
+        parsed.sessions.some((s) => new Date(s.startAt).getTime() > Date.now())
+      )
+        return parsed;
     }
   } catch {
     // fall through to seed
@@ -40,14 +46,17 @@ export function useDemoState() {
 
   // Expire offers on mount and periodically
   useEffect(() => {
-    dispatch({ type: 'EXPIRE_OFFERS' });
-    const interval = setInterval(() => dispatch({ type: 'EXPIRE_OFFERS' }), 30000);
+    dispatch({ type: "EXPIRE_OFFERS" });
+    const interval = setInterval(
+      () => dispatch({ type: "EXPIRE_OFFERS" }),
+      30000,
+    );
     return () => clearInterval(interval);
   }, []);
 
   const reset = useCallback(() => {
     const seed = createSeedState();
-    dispatch({ type: 'LOAD', state: seed });
+    dispatch({ type: "LOAD", state: seed });
     saveState(seed);
   }, []);
 

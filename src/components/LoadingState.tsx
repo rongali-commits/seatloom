@@ -1,4 +1,4 @@
-export function LoadingState({ label = 'Loading...' }: { label?: string }) {
+export function LoadingState({ label = "Loading..." }: { label?: string }) {
   return (
     <div className="flex items-center justify-center py-24">
       <div className="flex items-center gap-3 text-ink-muted">
@@ -9,7 +9,13 @@ export function LoadingState({ label = 'Loading...' }: { label?: string }) {
   );
 }
 
-export function ErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
+export function ErrorState({
+  message,
+  onRetry,
+}: {
+  message: string;
+  onRetry?: () => void;
+}) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <p className="text-sm text-red-600 mb-4">{message}</p>
@@ -22,7 +28,13 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
   );
 }
 
-export function EmptyState({ title, message }: { title: string; message: string }) {
+export function EmptyState({
+  title,
+  message,
+}: {
+  title: string;
+  message: string;
+}) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <h3 className="text-title text-ink mb-2">{title}</h3>

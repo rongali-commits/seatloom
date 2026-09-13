@@ -1,28 +1,40 @@
-import { Link } from 'react-router-dom';
-import { MapPin, Clock, Calendar, Users, ArrowRight, AlertCircle } from 'lucide-react';
-import { fetchPublicStudio, fetchPublicStudioWorkshops } from '@/lib/api';
-import type { PublicStudio, PublicStudioWorkshop } from '@/lib/api';
-import { useAsync } from '@/lib/use-async';
-import { formatDate, formatDuration, formatPrice } from '@/lib/format';
-import { ImageWithFallback } from '@/components/ImageWithFallback';
-import { LoadingState, ErrorState, EmptyState } from '@/components/LoadingState';
-import { useParams } from 'react-router-dom';
+import { ImageWithFallback } from "@/components/ImageWithFallback";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+} from "@/components/LoadingState";
+import type { PublicStudio, PublicStudioWorkshop } from "@/lib/api";
+import { fetchPublicStudio, fetchPublicStudioWorkshops } from "@/lib/api";
+import { formatDate, formatDuration, formatPrice } from "@/lib/format";
+import { useAsync } from "@/lib/use-async";
+import { Calendar, Clock, MapPin, Users } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 
 export function PublicStudioPage() {
   const { studioSlug } = useParams<{ studioSlug: string }>();
 
   const studioState = useAsync<PublicStudio | null>(
     () => fetchPublicStudio(studioSlug!),
-    [studioSlug]
+    [studioSlug],
   );
   const workshopsState = useAsync<PublicStudioWorkshop[]>(
     () => fetchPublicStudioWorkshops(studioSlug!),
-    [studioSlug]
+    [studioSlug],
   );
 
   if (studioState.loading) return <LoadingState label="Loading studio..." />;
-  if (studioState.error) return <ErrorState message={studioState.error} onRetry={studioState.refresh} />;
-  if (!studioState.data) return <EmptyState title="Studio not found" message="This studio may not exist or has no published workshops." />;
+  if (studioState.error)
+    return (
+      <ErrorState message={studioState.error} onRetry={studioState.refresh} />
+    );
+  if (!studioState.data)
+    return (
+      <EmptyState
+        title="Studio not found"
+        message="This studio may not exist or has no published workshops."
+      />
+    );
 
   const studio = studioState.data;
 
@@ -33,8 +45,14 @@ export function PublicStudioPage() {
           <MapPin className="w-4 h-4" />
           <span>{studio.name}</span>
         </div>
-        <h1 className="text-display text-ink text-balance mb-4">{studio.name}</h1>
-        {studio.bio && <p className="text-lg text-ink-soft text-pretty max-w-prose-narrow">{studio.bio}</p>}
+        <h1 className="text-display text-ink text-balance mb-4">
+          {studio.name}
+        </h1>
+        {studio.bio && (
+          <p className="text-lg text-ink-soft text-pretty max-w-prose-narrow">
+            {studio.bio}
+          </p>
+        )}
       </section>
 
       <section className="max-w-content mx-auto px-5 sm:px-8 pb-16">
@@ -42,9 +60,15 @@ export function PublicStudioPage() {
         {workshopsState.loading ? (
           <LoadingState label="Loading workshops..." />
         ) : workshopsState.error ? (
-          <ErrorState message={workshopsState.error} onRetry={workshopsState.refresh} />
+          <ErrorState
+            message={workshopsState.error}
+            onRetry={workshopsState.refresh}
+          />
         ) : !workshopsState.data || workshopsState.data.length === 0 ? (
-          <EmptyState title="No workshops available" message="This studio has not published any workshops yet." />
+          <EmptyState
+            title="No workshops available"
+            message="This studio has not published any workshops yet."
+          />
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workshopsState.data.map((w) => (
@@ -65,12 +89,16 @@ export function PublicStudioPage() {
                 )}
                 <div className="p-5">
                   <h3 className="text-title text-ink mb-1">{w.title}</h3>
-                  <p className="text-sm text-ink-muted mb-4 line-clamp-2">{w.short_description}</p>
+                  <p className="text-sm text-ink-muted mb-4 line-clamp-2">
+                    {w.short_description}
+                  </p>
                   <div className="space-y-2 text-sm text-ink-soft">
                     {w.instructor_name && (
                       <div className="flex items-center gap-2">
                         <span className="text-ink-faint">with</span>
-                        <span className="font-medium text-ink">{w.instructor_name}</span>
+                        <span className="font-medium text-ink">
+                          {w.instructor_name}
+                        </span>
                       </div>
                     )}
                     <div className="flex items-center gap-3">
@@ -86,14 +114,18 @@ export function PublicStudioPage() {
                       )}
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-plum-700 font-medium">{formatPrice(w.price)}</span>
+                      <span className="text-plum-700 font-medium">
+                        {formatPrice(w.price)}
+                      </span>
                       {w.available_seats != null && w.available_seats > 0 ? (
                         <span className="inline-flex items-center gap-1.5">
                           <Users className="w-3.5 h-3.5 text-ink-faint" />
                           {w.available_seats} seats
                         </span>
                       ) : w.available_seats === 0 ? (
-                        <span className="text-plum-700 font-medium">Waitlist</span>
+                        <span className="text-plum-700 font-medium">
+                          Waitlist
+                        </span>
                       ) : null}
                     </div>
                   </div>

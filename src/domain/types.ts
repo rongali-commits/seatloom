@@ -1,14 +1,14 @@
-export type WorkshopCategory = 'pottery' | 'photography' | 'printmaking';
+export type WorkshopCategory = "pottery" | "photography" | "printmaking";
 
-export type SessionFormat = 'in-person' | 'online';
+export type SessionFormat = "in-person" | "online";
 
-export type SessionStatus = 'open' | 'full' | 'waitlist';
+export type SessionStatus = "open" | "full" | "waitlist";
 
-export type BookingStatus = 'confirmed' | 'cancelled' | 'rescheduled';
+export type BookingStatus = "confirmed" | "cancelled" | "rescheduled";
 
-export type WaitlistStatus = 'waiting' | 'offered' | 'expired' | 'booked';
+export type WaitlistStatus = "waiting" | "offered" | "expired" | "booked";
 
-export type CheckInStatus = 'registered' | 'attended' | 'no-show';
+export type CheckInStatus = "registered" | "attended" | "no-show";
 
 export interface Instructor {
   id: string;
@@ -73,7 +73,15 @@ export interface WaitlistEntry {
 
 export interface ActivityEntry {
   id: string;
-  type: 'booking' | 'cancellation' | 'reschedule' | 'waitlist_join' | 'waitlist_offer' | 'waitlist_expire' | 'waitlist_booked' | 'check_in';
+  type:
+    | "booking"
+    | "cancellation"
+    | "reschedule"
+    | "waitlist_join"
+    | "waitlist_offer"
+    | "waitlist_expire"
+    | "waitlist_booked"
+    | "check_in";
   message: string;
   timestamp: string;
 }

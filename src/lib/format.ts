@@ -1,25 +1,25 @@
 export function formatDate(iso: string, timezone?: string): string {
   const date = new Date(iso);
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
+    weekday: "short",
+    month: "short",
+    day: "numeric",
   };
   if (timezone) {
     options.timeZone = timezone;
   }
-  return date.toLocaleDateString('en-GB', options);
+  return date.toLocaleDateString("en-GB", options);
 }
 
 export function formatTime(iso: string, timezone?: string): string {
   const date = new Date(iso);
   const options: Intl.DateTimeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
-  timeZone: timezone,
+    timeZone: timezone,
   };
-  return date.toLocaleTimeString('en-GB', options);
+  return date.toLocaleTimeString("en-GB", options);
 }
 
 export function formatDateTime(iso: string, timezone?: string): string {
@@ -35,29 +35,29 @@ export function formatDuration(minutes: number): string {
 }
 
 export function formatPrice(price: number): string {
-  if (price === 0) return 'Free demo';
+  if (price === 0) return "Free demo";
   return `£${(price / 100).toFixed(0)}`;
 }
 
 export function getOffsetLabel(timezone: string): string {
   const date = new Date();
-  const formatter = new Intl.DateTimeFormat('en-GB', {
+  const formatter = new Intl.DateTimeFormat("en-GB", {
     timeZone: timezone,
-    timeZoneName: 'shortOffset',
+    timeZoneName: "shortOffset",
   });
   const parts = formatter.formatToParts(date);
-  const tzPart = parts.find((p) => p.type === 'timeZoneName');
-  return tzPart?.value ?? '';
+  const tzPart = parts.find((p) => p.type === "timeZoneName");
+  return tzPart?.value ?? "";
 }
 
 export function getZoneLabel(timezone: string): string {
   try {
-    const formatter = new Intl.DateTimeFormat('en-GB', {
+    const formatter = new Intl.DateTimeFormat("en-GB", {
       timeZone: timezone,
-      timeZoneName: 'short',
+      timeZoneName: "short",
     });
     const parts = formatter.formatToParts(new Date());
-    const tzPart = parts.find((p) => p.type === 'timeZoneName');
+    const tzPart = parts.find((p) => p.type === "timeZoneName");
     return tzPart?.value ?? timezone;
   } catch {
     return timezone;

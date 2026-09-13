@@ -1,6 +1,6 @@
-import { createContext, useContext, type ReactNode } from 'react';
-import type { DemoState } from '@/domain/types';
-import type { DemoAction } from '@/domain/reducer';
+import type { DemoAction } from "@/domain/reducer";
+import type { DemoState } from "@/domain/types";
+import { createContext, useContext, type ReactNode } from "react";
 
 interface DemoContextValue {
   state: DemoState;
@@ -30,6 +30,6 @@ export function DemoProvider({
 
 export function useDemo(): DemoContextValue {
   const ctx = useContext(DemoContext);
-  if (!ctx) throw new Error('useDemo must be used within DemoProvider');
+  if (!ctx) throw new Error("useDemo must be used within DemoProvider");
   return ctx;
 }

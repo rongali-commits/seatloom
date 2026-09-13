@@ -1,28 +1,35 @@
-import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from '@/lib/auth';
-import { useDemoState } from '@/lib/demo-store';
-import { DemoProvider } from '@/lib/demo-context';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { HomePage } from '@/pages/HomePage';
-import { WorkshopDetailPage } from '@/pages/WorkshopDetailPage';
-import { OrganizerDemoPage } from '@/pages/OrganizerDemoPage';
-import { SignUpPage } from '@/pages/SignUpPage';
-import { LoginPage } from '@/pages/LoginPage';
-import { StudioPage } from '@/pages/StudioPage';
-import { StudioWorkshopEditPage, StudioWorkshopDetailPage } from '@/pages/StudioWorkshopEditPage';
-import { PublicStudioPage } from '@/pages/PublicStudioPage';
-import { PublicWorkshopPage } from '@/pages/PublicWorkshopPage';
-import { MyBookingsPage } from '@/pages/MyBookingsPage';
-import { PrivacyPage } from '@/pages/PrivacyPage';
-import { TermsPage } from '@/pages/TermsPage';
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { AuthProvider } from "@/lib/auth";
+import { DemoProvider } from "@/lib/demo-context";
+import { useDemoState } from "@/lib/demo-store";
+import { HomePage } from "@/pages/HomePage";
+import { LoginPage } from "@/pages/LoginPage";
+import { MyBookingsPage } from "@/pages/MyBookingsPage";
+import { OrganizerDemoPage } from "@/pages/OrganizerDemoPage";
+import { PrivacyPage } from "@/pages/PrivacyPage";
+import { PublicStudioPage } from "@/pages/PublicStudioPage";
+import { PublicWorkshopPage } from "@/pages/PublicWorkshopPage";
+import { SignUpPage } from "@/pages/SignUpPage";
+import { StudioPage } from "@/pages/StudioPage";
+import {
+  StudioWorkshopDetailPage,
+  StudioWorkshopEditPage,
+} from "@/pages/StudioWorkshopEditPage";
+import { TermsPage } from "@/pages/TermsPage";
+import { WorkshopDetailPage } from "@/pages/WorkshopDetailPage";
+import { Route, Routes } from "react-router-dom";
 
 function NotFoundPage() {
   return (
     <div className="max-w-content mx-auto px-5 sm:px-8 py-24 text-center">
       <h1 className="text-display text-ink mb-4">Page not found</h1>
-      <p className="text-ink-muted mb-6">The page you're looking for doesn't exist.</p>
-      <a href="/" className="btn-primary">Back to home</a>
+      <p className="text-ink-muted mb-6">
+        The page you're looking for doesn't exist.
+      </p>
+      <a href="/" className="btn-primary">
+        Back to home
+      </a>
     </div>
   );
 }
@@ -42,10 +49,23 @@ function AppShell() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/studio" element={<StudioPage />} />
-            <Route path="/studio/workshops/new" element={<StudioWorkshopEditPage />} />
-            <Route path="/studio/workshops/:workshopId" element={<StudioWorkshopDetailPage />} />
+            <Route
+              path="/studio/workshops/new"
+              element={<StudioWorkshopEditPage />}
+            />
+            <Route
+              path="/studio/workshops/:workshopId/edit"
+              element={<StudioWorkshopEditPage />}
+            />
+            <Route
+              path="/studio/workshops/:workshopId"
+              element={<StudioWorkshopDetailPage />}
+            />
             <Route path="/s/:studioSlug" element={<PublicStudioPage />} />
-            <Route path="/s/:studioSlug/:workshopSlug" element={<PublicWorkshopPage />} />
+            <Route
+              path="/s/:studioSlug/:workshopSlug"
+              element={<PublicWorkshopPage />}
+            />
             <Route path="/my-bookings" element={<MyBookingsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
