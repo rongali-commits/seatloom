@@ -35,6 +35,12 @@ export function MyBookingsPage() {
   const waitlistState = useAsync<MyWaitlistEntry[]>(fetchMyWaitlist, [
     user?.id,
   ]);
+  const refreshWaitlist = waitlistState.refresh;
+  useEffect(() => {
+    if (!user) return;
+    const interval = setInterval(refreshWaitlist, 30000);
+    return () => clearInterval(interval);
+  }, [user, refreshWaitlist]);
 
   const [cancelTarget, setCancelTarget] = useState<MyBooking | null>(null);
   const [rescheduleTarget, setRescheduleTarget] = useState<MyBooking | null>(
@@ -126,6 +132,8 @@ export function MyBookingsPage() {
   return (
     <div className="max-w-content mx-auto px-5 sm:px-8 py-8">
       <h1 className="text-headline text-ink mb-2">My bookings</h1>
+      <button className="btn-secondary mb-4" onClick={() => { bookingsState.refresh(); waitlistState.refresh(); }}>Refresh bookings and offers</button>
+      <p className="text-xs text-ink-muted mb-4">Booking updates are in-app only. Waitlist offers refresh every 30 seconds while this page is open and expire after 15 minutes.</p>
       <p className="text-sm text-ink-muted mb-8">
         Manage your workshop bookings and waitlist entries.
       </p>

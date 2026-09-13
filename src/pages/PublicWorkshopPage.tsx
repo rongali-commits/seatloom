@@ -56,6 +56,7 @@ export function PublicWorkshopPage() {
   const [waitlistModalOpen, setWaitlistModalOpen] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [waitlistJoined, setWaitlistJoined] = useState(false);
   const [success, setSuccess] = useState<{
     token: string;
     session: PublicSession;
@@ -141,6 +142,7 @@ export function PublicWorkshopPage() {
     setSubmitting(true);
     try {
       await joinWaitlist(selectedSession.id);
+      setWaitlistJoined(true);
       setWaitlistModalOpen(false);
       sessionsState.refresh();
     } catch (err) {
@@ -154,6 +156,7 @@ export function PublicWorkshopPage() {
 
   return (
     <div>
+      {waitlistJoined && <div role="status" className="max-w-content mx-auto px-5 py-4 text-sm bg-plum-50">You're on the waitlist. <Link to="/my-bookings" className="underline font-medium">Open My bookings</Link> to monitor and accept an offer. Booking emails are not sent.</div>}
       <div className="max-w-content mx-auto px-5 sm:px-8 pt-6">
         <Link
           to={`/s/${studioSlug}`}
