@@ -4,7 +4,7 @@
 
 **Creative workshop booking, with room for the experience and the operations behind it.**
 
-[Live demo](https://seatloom-workshop-pl-rcs7.bolt.host) Â· [Case study](https://noerong.com/projects/seatloom) Â· [Studio](https://noerong.com) Â· [CI](https://github.com/rongali-commits/seatloom/actions/workflows/ci.yml)
+[Live demo](https://seatloom-workshop-pl-rcs7.bolt.host) · [Case study](https://noerong.com/projects/seatloom) · [Studio](https://noerong.com) · [CI](https://github.com/rongali-commits/seatloom/actions/workflows/ci.yml)
 
 ![Seatloom workshop detail with fictional studio content](docs/screenshot.png)
 
