@@ -60,4 +60,4 @@ Supabase public configuration belongs in the two `VITE_` values. Credentials and
 
 ## Source and commercial use
 
-Built by Rongali Chaitanya at Noerong with React, TypeScript, Vite and Supabase. The studio provides commercial source rights separately; public repository visibility does not grant redistribution rights. [Discuss a source kit or implementation](https://noerong.com/contact). Dependencies retain their own licenses.
+Built by Rongali Chaitanya at Noerong with React, TypeScript, Vite and Supabase. The studio provides commercial source rights separately; public repository visibility does not grant redistribution rights. [Discuss a source kit or implementation](https://noerong.com/contact). Dependencies retain their own licenses. See [LICENSE.md](LICENSE.md).
